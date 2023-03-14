@@ -1,10 +1,12 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
+from .data import LAKE_AND_RIVERS
 
-url = 'https://allrivers.info/gauge/pripyat-mozyr'
-url2 = 'https://allrivers.info/gauge/pripyat-mozyr/weather'
-url3 = 'https://allrivers.info/gauge/pripyat-mozyr/waterlevel'
+
+url = f'https://allrivers.info/gauge/{LAKE_AND_RIVERS}'
+url2 = f'https://allrivers.info/gauge/{LAKE_AND_RIVERS}/weather'
+url3 = f'https://allrivers.info/gauge/{LAKE_AND_RIVERS}/waterlevel'
 
 r = requests.get(url)
 r2 = requests.get(url2)
