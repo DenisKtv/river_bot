@@ -75,14 +75,18 @@ async def user_message(message: types.Message):
         except IndexError:
             average = (f'Данных о среднем уровне реки {name_river}'
                        f' на этот день нет!')
-
+        # проверка на изминение уровня воды
+        try:
+            change = (f'За прошедшие 24 часа уровень изменился на'
+                      f' {change_for_day[1].text}см\n')
+        except IndexError:
+            change = 'За прошедшие 24 часа уровень воды не изменился!'
         # выводим информацию о текущих измерениях
         data_3 = (f'СВОДКА ИЗМЕРЕНИЙ:\n'
                   f'{main_info_river[0].text.strip()}\n'
                   f'Уровень воды сегодня {change_for_day[0].text} см\n'
                   f'{average}\n'
-                  f'За прошедшие 24 часа уровень изменился на'
-                  f' {change_for_day[1].text}см\n'
+                  f'{change}\n'
                   f'{main_info_river[4].text.strip()}\n')
         await message.answer(text=data_3)
 
