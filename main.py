@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bs
 
-from data import LAKE_AND_RIVERS
+from data import LAKE_AND_RIVERS, RIVERS_WITH_MANY_DOTS
 
 load_dotenv()
 # задаем уровень логов
@@ -20,7 +20,14 @@ dp = Dispatcher(bot)
 async def user_message(message: types.Message):
     arr = []
     user_text = message.text.lower()
-    if user_text in LAKE_AND_RIVERS:
+    if user_text in RIVERS_WITH_MANY_DOTS:
+        arr_name = RIVERS_WITH_MANY_DOTS[user_text]
+        await message.answer('У данной реки несколько точек измерения, '
+                             'введите название из соответствующего списка: ')
+        for name in arr_name:
+            await message.answer(f'{name}\n')
+
+    elif user_text in LAKE_AND_RIVERS:
         arr.append(LAKE_AND_RIVERS[user_text])
     else:
         data = 'Такой реки нет!'
@@ -53,7 +60,7 @@ async def user_message(message: types.Message):
         )
 
         # выводим название реки и точки измерения
-        data = (f'Название реки: {name_river},\n'
+        data = (f'Название: {name_river},\n'
                 f'Название места: {dot_name}')
         await message.answer(text=data)
 
@@ -61,12 +68,13 @@ async def user_message(message: types.Message):
         try:
             data_2 = (f'УРОВНИ ПАВОДКА:\n'
                       f'{pavodok_lvl[0].text.strip()}'
-                      f' - критический режим повышенн`ой готовности\n'
+                      f' - критический режим повышенной готовности\n'
                       f'{pavodok_lvl[1].text.strip()}'
                       f' - опасное явление, подтопление жилых помещений \n')
             await message.answer(text=data_2)
         except IndexError:
-            await message.answer('данных о УРОВНЯХ ПАВОДКА временно нет\n')
+            await message.answer('данные об УРОВНЯХ ПАВОДКА временно'
+                                 'отсутствуют\n')
 
         # проверяем есть ли данные о среднем уровне воды
         try:
