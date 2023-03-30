@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bs
 
-from data import LAKE_AND_RIVERS, RIVERS_WITH_MANY_DOTS
+from data import LAKE_AND_RIVERS, RIVERS_WITH_MANY_DOTS, DATA_LIST
 
 load_dotenv()
 # задаем уровень логов
@@ -29,6 +29,13 @@ async def user_message(message: types.Message):
 
     elif user_text in LAKE_AND_RIVERS:
         arr.append(LAKE_AND_RIVERS[user_text])
+    elif user_text == 'список':
+        await message.answer(
+            f'Всего данных в списке {len(DATA_LIST)}!\n'
+            'Реки, озера и водохранилища находятся в АЛФАВИТНОМ ПОРЯДКЕ:\n'
+        )
+        for name_riv in DATA_LIST:
+            await message.answer(f'{name_riv}\n')
     else:
         data = 'Такой реки нет!'
         await message.answer(text=data)
