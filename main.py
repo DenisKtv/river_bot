@@ -4,6 +4,7 @@ import logging
 
 from aiogram import Bot, Dispatcher, executor, types
 from dotenv import load_dotenv
+from datetime import datetime
 from bs4 import BeautifulSoup as bs
 
 from data import LAKE_AND_RIVERS, RIVERS_WITH_MANY_DOTS, DATA_LIST
@@ -16,32 +17,47 @@ bot = Bot(token=os.getenv('TOKEN', default='some_key'))
 dp = Dispatcher(bot)
 
 
-@dp.message_handler()
-async def user_message(message: types.Message):
-    arr = []
+@dp.message_handler(commands=['start'])
+async def start(message: types.Message):
+    await message.answer(
+        'Введите название реки, например припять или горынь, для получения '
+        'полного списка рек и озер, введите слово список'
+    )
+
+
+async def user_message(message):
+    arr_riv = []
+    all_river = ''
+    all_dots = ''
     user_text = message.text.lower()
     if user_text in RIVERS_WITH_MANY_DOTS:
         arr_name = RIVERS_WITH_MANY_DOTS[user_text]
-        await message.answer('У данной реки несколько точек измерения, '
-                             'введите название из соответствующего списка: ')
+        data1 = ('У данной реки несколько точек измерения, '
+                 'введите название из соответствующего списка:\n')
         for name in arr_name:
-            await message.answer(f'{name}\n')
+            all_dots += f'{name}\n'
+        return data1 + all_dots
 
     elif user_text in LAKE_AND_RIVERS:
-        arr.append(LAKE_AND_RIVERS[user_text])
+        arr_riv.append(LAKE_AND_RIVERS[user_text])
+        return arr_riv
+
     elif user_text == 'список':
-        await message.answer(
+        data = (
             f'Всего данных в списке {len(DATA_LIST)}!\n'
             'Реки, озера и водохранилища находятся в АЛФАВИТНОМ ПОРЯДКЕ:\n'
         )
         for name_riv in DATA_LIST:
-            await message.answer(f'{name_riv}\n')
+            all_river += f'{name_riv}\n'
+        return data + all_river
     else:
-        data = 'Такой реки нет!'
-        await message.answer(text=data)
+        return None
 
+
+async def pars_answer(answer):
     # парсим данные в зависимости от текста юзера
-    for part_url in arr:
+    big_data = ''
+    for part_url in answer:
         url = f'https://allrivers.info/gauge/{part_url}'
         url2 = f'https://allrivers.info/gauge/{part_url}/weather'
         url3 = f'https://allrivers.info/gauge/{part_url}/waterlevel'
@@ -54,22 +70,58 @@ async def user_message(message: types.Message):
         soup2 = bs(r2.text, 'lxml')
         soup3 = bs(r3.text, 'lxml')
 
+        # парсинг общей информации
         river_name = soup.find_all(class_='breadcrumb-item')
         name_river = river_name[3].text.strip()
         dot_name = river_name[4].text.strip()
-
         main_info_river = soup.find_all(class_='list-item')
-        temp_info = soup2.find_all(class_='list-item')
+
+        # парсинг информации о реке
         change_for_day = soup3.find('p', class_='mb-2').find_all('b')
         average_lvl = soup3.find_all('li', class_='pl-2')
         pavodok_lvl = soup3.find_all(
             class_='alert-label rounded px-4 py-1 me-3'
         )
 
+        # парсинг информации о погоде
+        time = datetime.now()
+        if time.hour >= 21:
+            x = 0
+        else:
+            x = 1
+
+        # next day weather
+        temp_info = soup2.find_all(class_='list-item')
+        temp_next = soup2.find_all(class_='tempday rounded border mb-2')
+        temp_next_day = temp_next[x].find_all(class_='date-title mb-3')
+        temp_next_time = temp_next[x].find_all(class_='bg-blue')
+        temp_next_temp = temp_next[x].find_all(class_='temperature flex-fill')
+        temp_next_title = temp_next[x].find_all(
+            class_='temperature-icon me-3 flex-fill'
+        )
+        temp_next_wind = temp_next[x].find_all(class_='wind flex-fill')
+        temp_next_preasure = temp_next[x].find_all(
+            class_='d-flex flex-row mb-2 justify-content-md-start '
+                   'justify-content-center'
+        )
+
+        # # after next day
+        # temp_next_day2 = temp_next[y].find_all(class_='date-title mb-3')
+        # temp_next_time2 = temp_next[y].find_all(class_='bg-blue')
+        # temp_next_temp2 = temp_next[y].find_all(class_='temperature flex-fill')
+        # temp_next_title2 = temp_next[y].find_all(
+        #     class_='temperature-icon me-3 flex-fill'
+        # )
+        # temp_next_wind2 = temp_next[y].find_all(class_='wind flex-fill')
+        # temp_next_preasure2 = temp_next[y].find_all(
+        #     class_='d-flex flex-row mb-2 justify-content-md-start '
+        #            'justify-content-center'
+        # )
+
         # выводим название реки и точки измерения
         data = (f'Название: {name_river},\n'
-                f'Название места: {dot_name}')
-        await message.answer(text=data)
+                f'Название места: {dot_name}\n')
+        big_data += data + '\n'
 
         # проверяем есть ли данные об уровне паводка и выводим результат
         try:
@@ -78,10 +130,10 @@ async def user_message(message: types.Message):
                       f' - критический режим повышенной готовности\n'
                       f'{pavodok_lvl[1].text.strip()}'
                       f' - опасное явление, подтопление жилых помещений \n')
-            await message.answer(text=data_2)
+            big_data += data_2 + '\n'
         except IndexError:
-            await message.answer('данные об УРОВНЯХ ПАВОДКА временно'
-                                 'отсутствуют\n')
+            error = 'данные об УРОВНЯХ ПАВОДКА временно отсутствуют\n'
+            big_data += error + '\n'
 
         # проверяем есть ли данные о среднем уровне воды
         try:
@@ -103,16 +155,75 @@ async def user_message(message: types.Message):
                   f'{average}\n'
                   f'{change}\n'
                   f'{main_info_river[4].text.strip()}\n')
-        await message.answer(text=data_3)
+        big_data += data_3 + '\n'
 
         # выводим данные о погоде в точке измерения
-        data_4 = (f'ПРОГНОЗ ПОГОДЫ в {dot_name}\n'
+        data_4 = (f'ПРОГНОЗ ПОГОДЫ в {dot_name} сегодня:\n'
                   f'{temp_info[0].text.strip()}\n'
                   f'{temp_info[1].text.strip()}\n'
                   f'{temp_info[2].text.strip()}\n'
                   f'{temp_info[3].text.strip()}\n'
                   f'{temp_info[4].text.strip()}\n')
-        await message.answer(text=data_4)
+        big_data += data_4 + '\n'
+
+        data5 = (f'{temp_next_day[0].text.strip().upper()}\n'
+                 f'| Время: {temp_next_time[0].text.strip()} | Температура '
+                 f'{temp_next_temp[0].text.strip()} | '
+                 f'{temp_next_title[0].find("img").get("title")} | Ветер: '
+                 f'{temp_next_wind[0].text.strip()} | '
+                 f'{temp_next_preasure[0].text.strip()} |\n\n'
+                 f'| Время: {temp_next_time[3].text.strip()} | Температура '
+                 f'{temp_next_temp[3].text.strip()} | '
+                 f'{temp_next_title[3].find("img").get("title")} | Ветер: '
+                 f'{temp_next_wind[3].text.strip()} | '
+                 f'{temp_next_preasure[3].text.strip()} |\n\n'
+                 f'| Время: {temp_next_time[5].text.strip()} | Температура '
+                 f'{temp_next_temp[5].text.strip()} | '
+                 f'{temp_next_title[5].find("img").get("title")} | Ветер: '
+                 f'{temp_next_wind[5].text.strip()} | '
+                 f'{temp_next_preasure[5].text.strip()} |\n\n'
+                 f'| Время: {temp_next_time[7].text.strip()} | Температура '
+                 f'{temp_next_temp[7].text.strip()} | '
+                 f'{temp_next_title[7].find("img").get("title")} | Ветер: '
+                 f'{temp_next_wind[7].text.strip()} | '
+                 f'{temp_next_preasure[7].text.strip()} |\n\n')
+
+        # data6 = (f'{temp_next_day2[0].text.strip().upper()}\n'
+        #          f'| Время: {temp_next_time2[0].text.strip()} | Температура '
+        #          f'{temp_next_temp2[0].text.strip()} | '
+        #          f'{temp_next_title2[0].find("img").get("title")} | Ветер: '
+        #          f'{temp_next_wind2[0].text.strip()} | '
+        #          f'{temp_next_preasure2[0].text.strip()} |\n'
+        #          f'| Время: {temp_next_time2[3].text.strip()} | Температура '
+        #          f'{temp_next_temp2[3].text.strip()} | '
+        #          f'{temp_next_title2[3].find("img").get("title")} | Ветер: '
+        #          f'{temp_next_wind2[3].text.strip()} | '
+        #          f'{temp_next_preasure2[3].text.strip()} |\n'
+        #          f'| Время: {temp_next_time2[5].text.strip()} | Температура '
+        #          f'{temp_next_temp2[5].text.strip()} | '
+        #          f'{temp_next_title2[5].find("img").get("title")} | Ветер: '
+        #          f'{temp_next_wind2[5].text.strip()} | '
+        #          f'{temp_next_preasure2[5].text.strip()} |\n'
+        #          f'| Время: {temp_next_time2[7].text.strip()} | Температура '
+        #          f'{temp_next_temp2[7].text.strip()} | '
+        #          f'{temp_next_title2[7].find("img").get("title")} | Ветер: '
+        #          f'{temp_next_wind2[7].text.strip()} | '
+        #          f'{temp_next_preasure2[7].text.strip()} |\n')
+        big_data += data5
+    return big_data
+
+
+@dp.message_handler()
+async def answer(message: types.Message):
+    answer = await user_message(message)
+    if answer is not None and type(answer) == list:
+        ans = await pars_answer(answer)
+        await message.answer(ans)
+    elif answer is not None:
+        await message.answer(answer)
+    else:
+        await message.answer('Такой реки нет в списке! Напишите слово '
+                             '"список" чтобы с ним ознакомиться.')
 
 
 if __name__ == '__main__':
