@@ -27,7 +27,6 @@ async def ai(promt):
         )
         return completion.choices[0].message.content
     except ConnectionError:
-        logging.error('AI not answer!')
         return None
 
 
@@ -39,15 +38,11 @@ async def send_welcome(message: types.Message):
 
 
 @dp.message_handler()
-async def echo(message: types.Message):
+async def answer(message: types.Message):
     answer = await ai(message.text)
 
-    if answer is not None:
+    if answer is not None and 'ян' in message.text.lower():
         await message.reply(answer)
-    else:
-        await message.reply('Неизвестная ошибка попробуй еще раз!')
-
-    # await message.answer(message.text)
 
 
 if __name__ == '__main__':
