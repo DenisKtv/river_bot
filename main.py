@@ -58,11 +58,12 @@ async def user_message(message):
 
 async def pars_answer(answer):
     """Парсинг данных и сбор их в одну переменную"""
+    url_env = os.getenv('URL')
     big_data = ''
     for part_url in answer:
-        url = f'https://allrivers.info/gauge/{part_url}'
-        url2 = f'https://allrivers.info/gauge/{part_url}/weather'
-        url3 = f'https://allrivers.info/gauge/{part_url}/waterlevel'
+        url = f'{url_env}/{part_url}'
+        url2 = f'{url_env}/{part_url}/weather'
+        url3 = f'{url_env}/{part_url}/waterlevel'
 
         r = requests.get(url)
         r2 = requests.get(url2)
@@ -123,7 +124,7 @@ async def pars_answer(answer):
                       f' - опасное явление, подтопление жилых помещений \n')
             big_data += data_2 + '\n'
         except IndexError:
-            error = 'данные об УРОВНЯХ ПАВОДКА временно отсутствуют\n'
+            error = 'Данные об УРОВНЯХ ПАВОДКА временно отсутствуют\n'
             big_data += error + '\n'
 
         # проверяем есть ли данные о среднем уровне воды
@@ -140,12 +141,16 @@ async def pars_answer(answer):
         except IndexError:
             change = 'За прошедшие 24 часа уровень воды не изменился!'
         # выводим информацию о текущих измерениях
-        data_3 = (f'СВОДКА ИЗМЕРЕНИЙ:\n'
-                  f'{main_info_river[0].text.strip()}\n'
-                  f'Уровень воды сегодня {change_for_day[0].text} см\n'
-                  f'{average}\n'
-                  f'{change}\n'
-                  f'{main_info_river[4].text.strip()}\n')
+        try:
+            data_3 = (f'СВОДКА ИЗМЕРЕНИЙ:\n'
+                      f'{main_info_river[0].text.strip()}\n'
+                      f'Уровень воды сегодня {change_for_day[0].text} см\n'
+                      f'{average}\n'
+                      f'{change}\n'
+                      f'{main_info_river[4].text.strip()}\n')
+        except IndexError:
+            data_3 = ('СВОДКА ИЗМЕРЕНИЙ: временно отсутствует, пожалуйста, '
+                      'попробуйте позже')
         big_data += data_3 + '\n'
 
         # выводим данные о погоде в точке измерения
