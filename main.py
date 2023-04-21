@@ -154,38 +154,58 @@ async def pars_answer(answer):
         big_data += data_3 + '\n'
 
         # выводим данные о погоде в точке измерения
-        data_4 = (f'ПРОГНОЗ ПОГОДЫ в {dot_name} сегодня:\n'
-                  f'{temp_info[0].text.strip()}\n'
-                  f'{temp_info[1].text.strip()}\n'
-                  f'{temp_info[2].text.strip()}\n'
-                  f'{temp_info[3].text.strip()}\n'
-                  f'{temp_info[4].text.strip()}\n')
+        try:
+            data_4 = (f'ПРОГНОЗ ПОГОДЫ в {dot_name} сегодня:\n'
+                      f'{temp_info[0].text.strip()}\n'
+                      f'{temp_info[1].text.strip()}\n'
+                      f'{temp_info[2].text.strip()}\n'
+                      f'{temp_info[3].text.strip()}\n'
+                      f'{temp_info[4].text.strip()}\n')
+        except IndexError:
+            data_4 = (f'ПРОГНОЗ ПОГОДЫ в {dot_name} на сегодня временно '
+                      'отсутствует, попробуйте проверить чуть позже')
         big_data += data_4 + '\n'
 
         # выводим данные о погоде на сл.день каждые 6 часов
-        data5 = (f'{temp_next_day[0].text.strip().upper()}\n'
-                 f'| Время: {temp_next_time[0].text.strip()} | Температура '
-                 f'{temp_next_temp[0].text.strip()} | '
-                 f'{temp_next_title[0].find("img").get("title")} | Ветер: '
-                 f'{temp_next_wind[0].text.strip()} | '
-                 f'{temp_next_preasure[0].text.strip()} |\n\n'
-                 f'| Время: {temp_next_time[3].text.strip()} | Температура '
-                 f'{temp_next_temp[3].text.strip()} | '
-                 f'{temp_next_title[3].find("img").get("title")} | Ветер: '
-                 f'{temp_next_wind[3].text.strip()} | '
-                 f'{temp_next_preasure[3].text.strip()} |\n\n'
-                 f'| Время: {temp_next_time[5].text.strip()} | Температура '
-                 f'{temp_next_temp[5].text.strip()} | '
-                 f'{temp_next_title[5].find("img").get("title")} | Ветер: '
-                 f'{temp_next_wind[5].text.strip()} | '
-                 f'{temp_next_preasure[5].text.strip()} |\n\n'
-                 f'| Время: {temp_next_time[7].text.strip()} | Температура '
-                 f'{temp_next_temp[7].text.strip()} | '
-                 f'{temp_next_title[7].find("img").get("title")} | Ветер: '
-                 f'{temp_next_wind[7].text.strip()} | '
-                 f'{temp_next_preasure[7].text.strip()} |\n\n')
+        try:
+            day = {temp_next_day[0].text.strip().upper()}
+        except IndexError:
+            day = 'Погода на завтра: '
 
-        big_data += data5
+        try:
+            data_5 = (f'{day}\n'
+                      f'| Время: {temp_next_time[0].text.strip()} | '
+                      'Температура '
+                      f'{temp_next_temp[0].text.strip()} | '
+                      f'{temp_next_title[0].find("img").get("title")} | '
+                      'Ветер: '
+                      f'{temp_next_wind[0].text.strip()} | '
+                      f'{temp_next_preasure[0].text.strip()} |\n\n'
+                      f'| Время: {temp_next_time[3].text.strip()} | '
+                      'Температура '
+                      f'{temp_next_temp[3].text.strip()} | '
+                      f'{temp_next_title[3].find("img").get("title")} | '
+                      'Ветер: '
+                      f'{temp_next_wind[3].text.strip()} | '
+                      f'{temp_next_preasure[3].text.strip()} |\n\n'
+                      f'| Время: {temp_next_time[5].text.strip()} | '
+                      'Температура '
+                      f'{temp_next_temp[5].text.strip()} | '
+                      f'{temp_next_title[5].find("img").get("title")} | '
+                      'Ветер: '
+                      f'{temp_next_wind[5].text.strip()} | '
+                      f'{temp_next_preasure[5].text.strip()} |\n\n'
+                      f'| Время: {temp_next_time[7].text.strip()} | '
+                      'Температура '
+                      f'{temp_next_temp[7].text.strip()} | '
+                      f'{temp_next_title[7].find("img").get("title")} | '
+                      'Ветер: '
+                      f'{temp_next_wind[7].text.strip()} | '
+                      f'{temp_next_preasure[7].text.strip()} |\n\n')
+        except IndexError:
+            data_5 = ('Данные о погоде на завтра временно отсутствуют, '
+                      'попробуйте проверить чуть позже')
+        big_data += data_5
     return big_data
 
 
