@@ -4,9 +4,9 @@ from .models import Post
 
 # Create your views here.
 def index(request):
-    posts = Post.objects.order_by('-pub_date')[:6]
+    posts = Post.objects.order_by('-pub_date')[:7]
     context = {
-        'post': posts,
+        'posts': posts,
     }
     return render(request, 'index.html', context)
 

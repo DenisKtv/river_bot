@@ -1,11 +1,32 @@
-<nav class="navbar navbar-light" style="background-color: lightskyblue">
-  <!-- {% load static %} -->
-  <div class="container">
-    <a class="navbar-brand" href="{%url "posts:index" %}">
-      <!-- <img src="{% static "img/logo.png" %}" width="30" height="30"  -->
-        class="d-inline-block align-top" alt="">
-          <!-- тег span используется для добавления нужных стилей отдельным участкам текста -->
-      <span style="color:red">Ya</span>tube
-    </a>
-  </div>
-</nav> 
+{% load static %}
+<style>
+  .header-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    position: relative;
+  }
+
+  .header-img {
+    height: auto;
+    width: 100%;
+    max-height: 310px;
+  }
+
+  .navbar {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    background-color: transparent;
+  }
+</style>
+<div class="header-container">
+  <img src="{% static 'img/header.jpg' %}" class="header-img">
+  <nav class="navbar">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</div>

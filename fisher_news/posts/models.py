@@ -17,7 +17,9 @@ class Group(models.Model):
 class Post(models.Model):
     title = models.CharField('news title', max_length=150)
     text = models.TextField('text')
-    image = models.ImageField('image of news', upload_to='posts/images')
+    image = models.ImageField(
+        'image of news', upload_to='posts/', blank=True
+    )
     group = models.ForeignKey(
         Group, on_delete=models.PROTECT, blank=True, null=True
     )
