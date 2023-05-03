@@ -15,18 +15,50 @@
 
   .navbar {
     position: absolute;
-    top: 50px;
-    right: 50px;
+    top: 0px;
+    right: 10px;
     background-color: transparent;
   }
+
+  .navbar a {
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    margin-right: 12px;
+  }
+
+  .navbar-search {
+    position: absolute;
+    top: 270px;
+    right: 10px;
+    background-color: transparent;
+  }
+
+  .btn-outline-success {
+    color: rgb(233, 225, 225);
+    background-color: transparent;
+    border-color: black;
+  }
+
+  .btn-outline-success:hover {
+    color: white;
+    background-color: black;
+    border-color: black;
+  }
+
 </style>
 <div class="header-container">
   <img src="{% static 'img/header.jpg' %}" class="header-img">
   <nav class="navbar">
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
+    <a class="navbar-brand" href="#">
+      <img src="{% static 'img/tg.png' %}" alt="Telegram" width="30" height="24">
+    </a>
+    <a href="#">Главная</a>
+    <a href="#">О нас</a>
+    <a href="#">Контакты</a>
   </nav>
+  <form class="d-flex navbar-search" role="search">
+    <input class="form-control me-2" type="search" placeholder="Поиск по заголовку" aria-label="Поиск">
+    <button class="btn btn-outline-success" type="submit">Поиск</button>
+  </form>
 </div>

@@ -31,13 +31,12 @@
     }
 
     .card-group {
-        font-size: 10px;
+        font-size: 11px;
         color: #fe0000;
     }
     
     /* Дополнительные стили для первой новости */
     .first-post {
-        background-color: #f5f5f5;
         padding: 16px;
     }
     
@@ -55,6 +54,10 @@
         color: #333;
         font-weight: bold;
     }
+    .big-post {
+        margin-top: 20px;
+    }
+
     .big-post .card-body {
     padding: 5px;
     }
@@ -84,7 +87,7 @@
                 {% endthumbnail %}
                 <div class="card-body first-post">
                     <span class="card-group">{{ post.group }}</span>
-                    <h5 class="card-title">{{ post.title|truncatechars:50 }}</h5>
+                    <h5 class="card-title">{{ post.title|truncatechars:50 }}<span class="badge bg-secondary">Новый</span></h5>
                     <p class="card-subtitle">Автор:{{ post.author }} | {{ post.pub_date|date:"d.m.Y"}}</p>
                     <a href="">читать далее...</a>
                 </div>

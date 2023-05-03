@@ -8,9 +8,23 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
   </head>
-  <body>
+  <body style="background-color: whitesmoke">
     <header>
+      <style>
+        .nav-link.special {
+          font-size: 24px;
+          color:rgba(0, 118, 63, 0.601);
+          font-weight: bold;
+        }
+      </style>
       {% include "includes/header.html" %}
+      <ul class="nav justify-content-center">
+        {% for group in groups %}
+          <li class="nav-item">
+            <a class="nav-link special" href="#">{{ group.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     </header>
     {% block content %}
     {% endblock %}
