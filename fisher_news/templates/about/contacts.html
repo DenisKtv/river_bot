@@ -1,0 +1,34 @@
+{% extends "wrapper.html" %}
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Наши контакты</h1>
+    <div class="row">
+        <div class="col-md-6">
+        <h3>Контактная информация</h3>
+        <p>Адрес: ул. Пушкина, д. 10, г. Москва</p>
+        <p>Телефон: +7 (999) 123-45-67</p>
+        <p>E-mail: info@fishjournal.ru</p>
+        </div>
+        <div class="col-md-6">
+        <h3>Обратная связь</h3>
+        <form>
+            <div class="mb-3">
+            <label for="name" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+            <label for="message" class="form-label">Сообщение</label>
+            <textarea class="form-control" id="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+        </div>
+    </div>
+  </div>
+{% endblock %}

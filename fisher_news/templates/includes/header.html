@@ -50,15 +50,17 @@
 <div class="header-container">
   <img src="{% static 'img/header.jpg' %}" class="header-img">
   <nav class="navbar">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="https://t.me/fish_journal">
       <img src="{% static 'img/tg.png' %}" alt="Telegram" width="30" height="24">
     </a>
-    <a href="#">Главная</a>
-    <a href="#">О нас</a>
-    <a href="#">Контакты</a>
+    <a href="{% url 'posts:index' %}">Главная</a>
+    <a href="{% url 'about:us' %}">О нас</a>
+    <a href="{% url 'about:contacts' %}">Контакты</a>
   </nav>
-  <form class="d-flex navbar-search" role="search">
-    <input class="form-control me-2" type="search" placeholder="Поиск по заголовку" aria-label="Поиск">
-    <button class="btn btn-outline-success" type="submit">Поиск</button>
-  </form>
+  {% if request.path == "/" %}
+    <form class="d-flex navbar-search" role="search">
+      <input class="form-control me-2" type="search" placeholder="Поиск по заголовку" aria-label="Поиск">
+      <button class="btn btn-outline-success" type="submit">Поиск</button>
+    </form>
+  {% endif %}
 </div>

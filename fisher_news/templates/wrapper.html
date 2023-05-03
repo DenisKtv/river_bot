@@ -21,12 +21,15 @@
       <ul class="nav justify-content-center">
         {% for group in groups %}
           <li class="nav-item">
-            <a class="nav-link special" href="#">{{ group.name }}</a>
+            <a class="nav-link special" href="{% url 'posts:group_posts_list' group.slug %}">{{ group.name }}</a>
           </li>
         {% endfor %}
       </ul>
     </header>
     {% block content %}
     {% endblock %}
+    <footer class="border text-center py-3">
+      {% include "includes/footer.html" %}
+    </footer>
   </body>
 </html>
