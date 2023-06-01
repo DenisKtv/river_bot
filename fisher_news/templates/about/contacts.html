@@ -1,36 +1,9 @@
 {% extends "wrapper.html" %}
+{% load static %}
 {% block title %}Контакты{% endblock %}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#contact-form').on('submit', function(event) {
-            event.preventDefault();
-
-            var form = $(this);
-            var formData = form.serialize();
-
-            $.ajax({
-                headers: {
-                    'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()
-                },
-                type: 'POST',
-                url: form.attr('action'),
-                data: formData,
-                success: function(response) {
-                    // Обработка успешного ответа
-                    console.log(response);
-                },
-                error: function(error) {
-                    // Обработка ошибки
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
+<script src="{% static 'js/contacts.js' %}"></script>
 
 {% block content %}
 <div class="container mt-5">

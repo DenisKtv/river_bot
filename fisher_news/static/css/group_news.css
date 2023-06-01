@@ -1,0 +1,72 @@
+.no-gutters .col-3,
+.no-gutters .col-6 {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    color: #999;
+}
+
+.card-group {
+    font-size: 11px;
+    color: #fe0000;
+}
+
+/* Дополнительные стили для первой новости */
+.first-post {
+    padding: 16px;
+}
+
+.first-post .card-title {
+    font-size: 28px;
+    color: #333;
+}
+
+.first-post .card-subtitle {
+    font-size: 16px;
+    color: #666;
+}
+
+.first-post .card-body a {
+    color: #333;
+    font-weight: bold;
+}
+.big-post {
+    margin-top: 20px;
+}
+
+.big-post .card-body {
+padding: 5px;
+}
+
+.big-post .card-title {
+    font-size: 32px;
+    margin-top: 10px;
+}
+
+.big-post .card-subtitle {
+    font-size: 14px;
+}
+
+.big-post .card-img-top {
+    height: 320px;
+    object-fit: cover;
+}
