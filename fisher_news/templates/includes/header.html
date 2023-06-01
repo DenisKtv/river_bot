@@ -15,9 +15,10 @@
 
   .navbar {
     position: absolute;
-    top: 0px;
-    right: 10px;
+    top: 0%;
+    right: 1%;
     background-color: transparent;
+    font-size: 1em;
   }
 
   .navbar a {
@@ -29,9 +30,21 @@
 
   .navbar-search {
     position: absolute;
-    top: 270px;
-    right: 10px;
+    top: 80%;
+    right: 1%;
     background-color: transparent;
+  }
+
+  .navbar-search input {
+    height: 40px;
+    width: 260px;
+    font-size: 0.9em;
+  }
+
+  .navbar-search button {
+    height: 40px;
+    width: 80px;
+    font-size: 0.9em;
   }
 
   .btn-outline-success {
@@ -46,20 +59,58 @@
     border-color: black;
   }
 
+  @media (max-width: 768px) {
+    .navbar {
+      font-size: 0.9em;
+    }
+
+    .navbar-search input{
+      height: 32px;
+      width: 180px;
+      font-size: 0.8em;
+    }
+
+    .navbar-search button {
+      height: 32px;
+      width: 60px;
+      font-size: 0.75em;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .navbar {
+      font-size: 0.8em;
+    }
+
+    .navbar-search input{
+      height: 25px;
+      width: 145px;
+      font-size: 0.7em;
+    }
+  
+    .navbar-search button {
+      height: 25px;
+      width: 55px;
+      font-size: 0.7em;
+    }
+  }
+
 </style>
 <div class="header-container">
-  <img src="{% static 'img/header.jpg' %}" class="header-img">
-  <nav class="navbar">
+  <div class="navbar">
     <a class="navbar-brand" href="https://t.me/fish_journal">
       <img src="{% static 'img/tg.png' %}" alt="Telegram" width="30" height="24">
     </a>
     <a href="{% url 'posts:index' %}">Главная</a>
     <a href="{% url 'about:us' %}">О нас</a>
     <a href="{% url 'about:contacts' %}">Контакты</a>
-  </nav>
+  </div>
+  <a href="{% url 'posts:index' %}">
+    <img src="{% static 'img/header.jpg' %}" class="header-img">
+  </a>
   {% if request.path == "/" %}
-    <form class="d-flex navbar-search" role="search">
-      <input class="form-control me-2" type="search" placeholder="Поиск по заголовку" aria-label="Поиск">
+    <form class="d-flex navbar-search" role="search" action="{% url 'posts:post_list' %}" method="get">
+      <input class="form-control me-2" type="search" name="q" placeholder="Поиск по заголовку" aria-label="Поиск" value="{{ request.GET.q }}">
       <button class="btn btn-outline-success" type="submit">Поиск</button>
     </form>
   {% endif %}

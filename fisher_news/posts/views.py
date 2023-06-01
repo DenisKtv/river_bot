@@ -13,6 +13,21 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 
+def post_list(request):
+    query = request.GET.get('q')
+    if query:
+        print(f"query: {query}")
+        posts = Post.objects.filter(title__icontains=query)
+        for post in posts:
+            print(f"title: {post.title}")
+    else:
+        posts = Post.objects.all()
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'posts/index.html', context)
+
+
 def group_posts(request, slug):
     group_news = get_object_or_404(Group, slug=slug)
     posts = Post.objects.filter(group=group_news).order_by('pub_date')[:7]
@@ -24,4 +39,8 @@ def group_posts(request, slug):
 
 
 def news_detail(request, pk):
-    return render(request, f'Page {pk}')
+    post = get_object_or_404(Post, pk=pk)
+    context = {
+        'post': post,
+    }
+    return render(request, 'posts/news_detail.html', context)

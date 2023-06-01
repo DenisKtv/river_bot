@@ -1,0 +1,61 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .text-muted {
+        opacity: 0.4;
+    }
+    .post-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        margin-top: 20px;
+    }
+    .bord {
+        border-bottom: 2px solid #000000;
+    }
+    p {
+        color: #000000;
+        font-size: 18px;
+    }
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .social-icons img {
+        margin: 0 5px;
+        width: 60px;
+        height: 60px;
+        margin-top: -20px;
+        margin-right: 5px;
+    }
+</style>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <img src="{{ post.image.url }}" class="img-fluid post-image mb-3">
+            <h1 class="text-center">{{ post.title }}</h1>
+            <div class="social-icons">
+                <a href="http://vkontakte.ru/share.php?url={{ request.build_absolute_uri }}&title={{ post.title }}&description=&image={{ post.image.url }}&noparse=true" onclick="window.open(this.href, this.title, 'toolbar=0, status=0, width=548, height=325'); return false" target="_parent"><img src="{% static 'img/vk.png' %}" alt="Вконтакте" title="Поделиться новостью в Vkontakte"></a>
+                <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank"><img src="{% static 'img/tg.png' %}" alt="Telegram" title="Поделиться новостью в Telegram"></a>
+                <a href="viber://forward?text={{ request.build_absolute_uri }}%20{{ post.title }}"><img src="{% static 'img/viber.png' %}" alt="Viber" title="Поделиться новостью в Viber"></a>
+                <a href="https://connect.ok.ru/offer?url={{ request.build_absolute_uri }}" target="_blank"><img src="{% static 'img/ok.png' %}" alt="Одноклассники" title="Поделиться новостью в Одноклассниках"></a>
+                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank"><img src="{% static 'img/twitter.png' %}" alt="Twitter" title="Поделиться новостью в Twitter"></a>
+            </div> 
+            <!-- <script src="https://yastatic.net/share2/share.js"></script>
+            <div class="ya-share2" data-curtain data-size="l" data-shape="round" data-services="vkontakte,odnoklassniki,telegram,twitter,viber"></div> -->
+            <p class="text-muted text-center bord mb-5">Автор: {{ post.author }} | {{ post.pub_date }}</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>{{ post.text }}</p>
+                </div>               
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

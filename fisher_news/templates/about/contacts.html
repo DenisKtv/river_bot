@@ -1,6 +1,37 @@
 {% extends "wrapper.html" %}
 {% block title %}Контакты{% endblock %}
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#contact-form').on('submit', function(event) {
+            event.preventDefault();
+
+            var form = $(this);
+            var formData = form.serialize();
+
+            $.ajax({
+                headers: {
+                    'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()
+                },
+                type: 'POST',
+                url: form.attr('action'),
+                data: formData,
+                success: function(response) {
+                    // Обработка успешного ответа
+                    console.log(response);
+                },
+                error: function(error) {
+                    // Обработка ошибки
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
 {% block content %}
 <div class="container mt-5">
     <h1 class="text-center mb-4">Наши контакты</h1>
@@ -13,7 +44,8 @@
         </div>
         <div class="col-md-6">
         <h3>Обратная связь</h3>
-        <form>
+        <form method="post" action="{% url 'about:contacts' %}">
+            {% csrf_token %}
             <div class="mb-3">
             <label for="name" class="form-label">Имя</label>
             <input type="text" class="form-control" id="name" required>

@@ -3,7 +3,9 @@ from .models import Post, Group
 
 
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'title', 'text', 'pub_date', 'author', 'group')
+    list_display = (
+        'pk', 'title', 'short_text', 'pub_date', 'author', 'group',
+    )
     list_editable = ('group',)
     search_fields = ('title',)
     list_filter = ('pub_date',)

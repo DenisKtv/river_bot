@@ -30,6 +30,9 @@ class Post(models.Model):
     )
     pub_date = models.DateTimeField(auto_now_add=True)
 
+    def short_text(self):
+        return self.text[:30]
+
     class Meta:
         verbose_name = 'New'
         ordering = ('-pub_date',)
