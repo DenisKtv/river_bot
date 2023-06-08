@@ -1,0 +1,16 @@
+.pagination .page-link {
+    color: #fff;
+    background-color: #28a745; 
+    border-color: #28a745; 
+  }
+  
+  .pagination .page-link:hover {
+    background-color: #218838; /* Зеленый цвет при наведении */
+    border-color: #1e7e34; /* Зеленый цвет при наведении */
+  }
+  
+  .pagination .page-item.active .page-link {
+    background-color: #218838; /* Зеленый цвет для активной страницы */
+    border-color: #1e7e34; /* Зеленый цвет для активной страницы */
+  }
+  

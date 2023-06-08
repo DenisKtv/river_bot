@@ -1,6 +1,12 @@
 {% extends "wrapper.html" %}
 {% load static %}
 
+{% block title %}
+    {% if post %}
+       {{ post.title|truncatechars:30 }}
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/news_detail.css' %}">
@@ -19,7 +25,7 @@
             </div> 
             <!-- <script src="https://yastatic.net/share2/share.js"></script>
             <div class="ya-share2" data-curtain data-size="l" data-shape="round" data-services="vkontakte,odnoklassniki,telegram,twitter,viber"></div> -->
-            <p class="text-muted text-center bord mb-5">Автор: {{ post.author }} | {{ post.pub_date }}</p>
+            <p class="text-muted text-center bord mb-5">Автор: {{ post.author }} | {{ post.pub_date|date:"d.m.Y"}}</p>
             <div class="row">
                 <div class="col-md-12">
                     <p>{{ post.text }}</p>

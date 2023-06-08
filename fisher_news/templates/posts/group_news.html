@@ -2,6 +2,14 @@
 {% load static %}
 {% load thumbnail %}
 
+{% block title %}
+    {% if posts %}
+        Новости группы: {{ posts.0.group }}
+    {% else %}
+        Новостей нет
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/group_news.css' %}">
@@ -11,25 +19,27 @@
         {% if forloop.first %}
             <div class="col-md-6 big-post">
                 {% thumbnail post.image "1280x640" crop="center" upscale=True as im %}
-                <img class="card-img-top" src="{{ im.url }}">
+                <a href="{% url 'posts:news_detail' post.id %}">
+                    <img class="card-img-top" src="{{ im.url }}">
+                </a>
                 {% endthumbnail %}
                 <div class="card-body first-post">
                     <span class="card-group">{{ post.group }}</span>
                     <h5 class="card-title">{{ post.title|truncatechars:50 }}</h5>
                     <p class="card-subtitle">Автор:{{ post.author }} | {{ post.pub_date|date:"d.m.Y"}}</p>
-                    <a href="">читать далее...</a>
                 </div>
             </div>
         {% elif forloop.counter <= 3 %}
             <div class="col-md-3 big-post">
                 {% thumbnail post.image "960x640" crop="center" upscale=True as im %}
-                <img class="card-img-top" src="{{ im.url }}">
+                <a href="{% url 'posts:news_detail' post.id %}">
+                    <img class="card-img-top" src="{{ im.url }}">
+                </a>
                 {% endthumbnail %}
                 <div class="card-body">
                     <span class="card-group">{{ post.group }}</span>
                     <h5 class="card-title">{{ post.title|truncatechars:50 }}</h5>
                     <p class="card-subtitle">Автор:{{ post.author }} | {{ post.pub_date|date:"d.m.Y"}}</p>
-                    <a href="">читать далее...</a>
                 </div>
             </div>
         {% else %}
@@ -38,13 +48,14 @@
             {% endif %}
             <div class="col-md-3">
                 {% thumbnail post.image "960x640" crop="center" upscale=True as im %}
-                <img class="card-img-top" src="{{ im.url }}">
+                <a href="{% url 'posts:news_detail' post.id %}">
+                    <img class="card-img-top" src="{{ im.url }}">
+                </a>
                 {% endthumbnail %}
                 <div class="card-body">
                     <span class="card-group">{{ post.group }}</span>
                     <h5 class="card-title">{{ post.title|truncatechars:50 }}</h5>
                     <p class="card-subtitle">Автор:{{ post.author }} | {{ post.pub_date|date:"d.m.Y"}}</p>
-                    <a href="">читать далее...</a>
                 </div>
             </div>
         {% endif %}
