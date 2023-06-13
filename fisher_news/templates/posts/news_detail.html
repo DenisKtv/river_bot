@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <img src="{{ post.image.url }}" class="img-fluid post-image mb-3">
+            <img src="{{ post.image }}" class="img-fluid post-image mb-3">
             <h1 class="text-center">{{ post.title }}</h1>
             <div class="social-icons">
                 <a href="http://vkontakte.ru/share.php?url={{ request.build_absolute_uri }}&title={{ post.title }}&description=&image={{ post.image.url }}&noparse=true" onclick="window.open(this.href, this.title, 'toolbar=0, status=0, width=548, height=325'); return false" target="_parent"><img src="{% static 'img/vk.png' %}" alt="Вконтакте" title="Поделиться новостью в Vkontakte"></a>

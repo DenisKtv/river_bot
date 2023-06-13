@@ -18,16 +18,16 @@
 .card-title {
     font-size: 24px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 2px;
 }
 
-.card-subtitle {
+/* .card-subtitle {
     position: absolute;
     bottom: 0;
     left: 0;
     font-size: 14px;
     color: #999;
-}
+} */
 
 .card-group {
     font-size: 11px;
@@ -42,11 +42,13 @@
 .first-post .card-title {
     font-size: 28px;
     color: #333;
+    margin-top: 2px;
 }
 
 .first-post .card-subtitle {
     font-size: 16px;
     color: #666;
+    margin-top: 3px;
 }
 
 .first-post .card-body a {
@@ -62,13 +64,13 @@ padding: 5px;
 }
 
 .big-post .card-title {
-    font-size: 32px;
-    margin-top: 10px;
+    font-size: 28px;
+    margin-top: 2px;
 }
 
-.big-post .card-subtitle {
+/* .big-post .card-subtitle {
     font-size: 14px;
-}
+} */
 
 .big-post .card-img-top {
     height: 320px;

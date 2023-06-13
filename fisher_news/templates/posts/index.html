@@ -21,7 +21,7 @@
                 {% endthumbnail %}
                 <div class="card-body first-post">
                     <span class="card-group">{{ post.group }}</span>
-                    <h5 class="card-title"><a href="{% url 'posts:news_detail' post.id %}" style="text-decoration:none; color:black;">{{ post.title|truncatechars:50 }}</a></h5>
+                    <h5 class="card-title"><a href="{% url 'posts:news_detail' post.id %}" style="text-decoration:none; color:black;">{{ post.title|truncatechars:70 }}</a></h5>
                     <p class="card-subtitle">Автор:{{ post.author }} | {{ post.pub_date|date:"d.m.Y"}}</p>
                 </div>
             </div>

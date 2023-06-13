@@ -14,12 +14,17 @@ class Group(models.Model):
         return self.name
 
 
+class Image(models.Model):
+    news = models.ForeignKey(
+        'Post', on_delete=models.CASCADE, related_name='images'
+    )
+    image_url = models.CharField('image for post', max_length=400)
+
+
 class Post(models.Model):
     title = models.CharField('news title', max_length=150)
     text = models.TextField('text')
-    image = models.ImageField(
-        'image of news', upload_to='posts/', blank=True
-    )
+    image = models.CharField('image for title', max_length=400)
     group = models.ForeignKey(
         Group, on_delete=models.PROTECT, blank=True, null=True
     )
@@ -32,6 +37,15 @@ class Post(models.Model):
 
     def short_text(self):
         return self.text[:30]
+
+    def get_formatted_text(self):
+        formatted_text = self.text
+        images = self.images.all()
+        for image in images:
+            formatted_text = formatted_text.replace(
+                '{img}', f'<img src="{image.image_url}">'
+            )
+        return formatted_text
 
     class Meta:
         verbose_name = 'New'
