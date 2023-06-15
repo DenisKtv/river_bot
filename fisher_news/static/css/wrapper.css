@@ -3,3 +3,7 @@
   color:rgba(0, 118, 63, 0.601);
   font-weight: bold;
 }
+
+.marg-bot {
+  margin-bottom: 20px;
+}

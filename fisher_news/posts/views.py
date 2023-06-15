@@ -44,7 +44,9 @@ def group_posts(request, slug):
 
 def news_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    formatted_text = post.get_formatted_text()
     context = {
         'post': post,
+        'formatted_text': formatted_text,
     }
     return render(request, 'posts/news_detail.html', context)

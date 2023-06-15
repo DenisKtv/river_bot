@@ -21,13 +21,11 @@
     margin-top: 2px;
 }
 
-/* .card-subtitle {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    font-size: 14px;
-    color: #999;
-} */
+.card-subtitle {
+    font-size: 12px;
+    color: #666;
+    margin-top: 3px;
+}
 
 .card-group {
     font-size: 11px;
@@ -46,7 +44,7 @@
 }
 
 .first-post .card-subtitle {
-    font-size: 16px;
+    font-size: 18px;
     color: #666;
     margin-top: 3px;
 }
@@ -55,22 +53,21 @@
     color: #333;
     font-weight: bold;
 }
-.big-post {
-    margin-top: 20px;
-}
 
 .big-post .card-body {
-padding: 5px;
+    padding: 5px;
 }
 
 .big-post .card-title {
-    font-size: 28px;
-    margin-top: 2px;
+    font-size: 26px;
+    margin-top: 0px;
 }
 
-/* .big-post .card-subtitle {
+.big-post .card-subtitle {
     font-size: 14px;
-} */
+    color: #666;
+    margin-top: 0px;
+}
 
 .big-post .card-img-top {
     height: 320px;
