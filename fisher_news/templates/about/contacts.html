@@ -20,16 +20,20 @@
         <form method="post" action="{% url 'about:contacts' %}">
             {% csrf_token %}
             <div class="mb-3">
-            <label for="name" class="form-label">Ввудите ваше имя:</label>
-            <input type="text" class="form-control" id="name" required>
+                <label for="name" class="form-label">Ввeдите ваше имя:</label>
+                <input type="text" class="form-control" id="name" required>
             </div>
             <div class="mb-3">
-            <label for="email" class="form-label">Ващ Email:</label>
-            <input type="email" class="form-control" id="email" required>
+                <label for="username" class="form-label">Ваше Telegram-имя:</label>
+                <input type="text" class="form-control" id="username" required>
             </div>
             <div class="mb-3">
-            <label for="message" class="form-label">Сообщение:</label>
-            <textarea class="form-control" id="message" rows="5" required></textarea>
+                <label for="email" class="form-label">Ваш Email:</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Сообщение:</label>
+                <textarea class="form-control" id="message" rows="5" required></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
