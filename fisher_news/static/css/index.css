@@ -73,3 +73,13 @@
     height: 320px;
     object-fit: cover;
 }
+
+.big-post-image {
+    width: 1280px;
+    height: 640px;
+}
+
+.regular-post-image {
+    width: 960px;
+    height: 640px;
+}
