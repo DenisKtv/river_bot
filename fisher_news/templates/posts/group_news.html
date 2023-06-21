@@ -1,6 +1,5 @@
 {% extends "wrapper.html" %}
 {% load static %}
-{% load thumbnail %}
 
 {% block title %}
     {% if posts %}
@@ -18,11 +17,9 @@
     {% for post in posts %}
         {% if forloop.first %}
             <div class="col-md-6 big-post">
-                {% thumbnail post.image "1280x640" crop="center" upscale=True as im %}
                 <a href="{% url 'posts:news_detail' post.id %}">
-                    <img class="card-img-top" src="{{ im.url }}">
+                    <img class="card-img-top" src="{{ post.image }}">
                 </a>
-                {% endthumbnail %}
                 <div class="card-body first-post">
                     <span class="card-group">{{ post.group }}</span>
                     <h5 class="card-title">{{ post.title|truncatechars:50 }}</h5>
@@ -31,11 +28,9 @@
             </div>
         {% elif forloop.counter <= 3 %}
             <div class="col-md-3 big-post">
-                {% thumbnail post.image "960x640" crop="center" upscale=True as im %}
                 <a href="{% url 'posts:news_detail' post.id %}">
-                    <img class="card-img-top" src="{{ im.url }}">
+                    <img class="card-img-top" src="{{ post.image }}">
                 </a>
-                {% endthumbnail %}
                 <div class="card-body">
                     <span class="card-group">{{ post.group }}</span>
                     <h5 class="card-title">{{ post.title|truncatechars:50 }}</h5>
@@ -47,11 +42,9 @@
                 </div><div class="row no-gutters">
             {% endif %}
             <div class="col-md-3">
-                {% thumbnail post.image "960x640" crop="center" upscale=True as im %}
                 <a href="{% url 'posts:news_detail' post.id %}">
-                    <img class="card-img-top" src="{{ im.url }}">
+                    <img class="card-img-top" src="{{ post.image }}">
                 </a>
-                {% endthumbnail %}
                 <div class="card-body">
                     <span class="card-group">{{ post.group }}</span>
                     <h5 class="card-title">{{ post.title|truncatechars:50 }}</h5>
