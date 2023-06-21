@@ -10,9 +10,9 @@ from bs4 import BeautifulSoup as bs
 from data import LAKE_AND_RIVERS, RIVERS_WITH_MANY_DOTS, DATA_LIST
 
 load_dotenv()
-# задаем уровень логов
+
 logging.basicConfig(level=logging.INFO)
-# инициализация бота
+
 bot = Bot(token=os.getenv('TOKEN', default='some_key'))
 dp = Dispatcher(bot)
 
