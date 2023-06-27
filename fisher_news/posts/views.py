@@ -69,7 +69,7 @@ def send_message_to_bot(request):
         telegram_chat = os.getenv('MY_CHAT')
         telegram_message = (f'Новое сообщение от пользователя: \n{name},'
                             f'\nЛогин ТГ:{username},\nпочта: {email},'
-                            f'\n сообщение: {message}')
+                            f'\nСообщение: {message}')
 
         response = requests.get(
             f'https://api.telegram.org/bot{telegram_token}/sendMessage?'

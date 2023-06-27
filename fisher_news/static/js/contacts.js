@@ -5,6 +5,19 @@ $(document).ready(function() {
         var form = $(this);
         var formData = form.serialize();
 
+        // Получаем значения полей телефона, email и username
+        var phone = $('#phone').val();
+        var email = $('#email').val();
+        var username = $('#username').val();
+
+        // Проверяем, что хотя бы одно из полей заполнено
+        if (!phone && !email && !username) {
+            // Выводим сообщение об ошибке и прерываем отправку формы
+            alert('Хотя бы одно из полей (телефон, email, telegram) должно быть заполнено.');
+            return;
+        }
+
+        // Продолжаем отправку формы
         $.ajax({
             headers: {
                 'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()
@@ -30,7 +43,7 @@ $(document).ready(function() {
         // Отправка данных боту через Ajax-запрос
         $.ajax({
             type: 'POST',
-            url: '/send_message_to_bot/',  // Замени на URL-адрес, обрабатывающий отправку сообщения боту
+            url: '/send_message_to_bot/',
             data: formData,
             success: function(response) {
                 // Обработка успешного ответа

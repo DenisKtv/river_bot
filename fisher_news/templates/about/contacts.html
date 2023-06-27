@@ -10,34 +10,41 @@
     <h1 class="text-center mb-4">Наши контакты</h1>
     <div class="row">
         <div class="col-md-6">
-        <h3>Контактная информация</h3>
-        <p>Адрес: г. Минск </p>
-        <p>E-mail: fishjournal@mail.ru </p>
-        <p>Telegram: <a href="https://t.me/denKtv">Наш телеграм</a> </p>
+            <h3>Контактная информация</h3>
+            <p>Адрес: г. Минск </p>
+            <p>E-mail: fishjournal@mail.ru </p>
+            <p>Telegram: <a href="https://t.me/denKtv">Наш телеграм</a> </p>
         </div>
         <div class="col-md-6">
-        <h3>Обратная связь</h3>
-        <form method="post" action="/send_message_to_bot/">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="name" class="form-label">Ввeдите ваше имя:</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Ваш ник в Telegram:</label>
-                <input type="text" class="form-control" id="username" placeholder="Не обязательно" name="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Ваш Email:</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label">Сообщение:</label>
-                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Отправить</button>
-        </form>
+            <h3>Обратная связь</h3>
+            <form method="post" action="/send_message_to_bot/">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Введите ваше имя:</label>
+                    <input type="text" class="form-control" id="name" name="name" required pattern="[A-Za-zА-Яа-яЁё\s]+">
+                    <small>Только буквы и пробелы</small>
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Ваш ник в Telegram:</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Ваш Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    <small>Формат: example@mail.com</small>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Ваш телефон:</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required pattern="[0-9+\-\s]+">
+                    <small>Только цифры, + и -</small>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Сообщение:</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
         </div>
     </div>
-  </div>
+</div>
 {% endblock %}
