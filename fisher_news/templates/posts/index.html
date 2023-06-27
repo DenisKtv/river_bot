@@ -49,6 +49,52 @@
             </div>
         {% endif %}
     {% endfor %}
+
+    {% if request.GET.q %}
+    <h3>Результаты поиска:</h3>
+    {% for post in posts %}
+        {% if forloop.first %}
+            <div class="col-md-6 big-post">
+                <a href="{% url 'posts:news_detail' post.id %}">
+                    <img class="card-img-top" src="{{ post.image }}">
+                </a>
+                <div class="card-body first-post card-hover">
+                    <span class="card-group">{{ post.group }}</span>
+                    <h5 class="card-title"><a href="{% url 'posts:news_detail' post.id %}" style="text-decoration:none; color:black;">{{ post.title|truncatechars:70 }}</a></h5>
+                    <p class="card-subtitle">Автор:{{ post.author }} | {{ post.pub_date|date:"d.m.Y"}}</p>
+                </div>
+            </div>
+        {% elif forloop.counter <= 3 %}
+            <div class="col-md-3 big-post">
+                <a href="{% url 'posts:news_detail' post.id %}">
+                    <img class="card-img-top" src="{{ post.image }}">
+                </a>
+                <div class="card-body big-post">
+                    <span class="card-group">{{ post.group }}</span>
+                    <h5 class="card-title"><a href="{% url 'posts:news_detail' post.id %}" style="text-decoration:none; color:black;">{{ post.title|truncatechars:50 }}</a></h5>
+                    <p class="card-subtitle">{{ post.pub_date|date:"d.m.Y"}}</p>
+                </div>
+            </div>
+        {% else %}
+            {% if forloop.counter|divisibleby:4 %}
+            </div><div class="row no-gutters">
+            {% endif %}
+            <div class="col-md-3">
+                <a href="{% url 'posts:news_detail' post.id %}">
+                    <img class="card-img-top" src="{{ post.image }}">
+                </a>
+                <div class="card-body">
+                    <span class="card-group">{{ post.group }}</span>
+                    <h5 class="card-title"><a href="{% url 'posts:news_detail' post.id %}" style="text-decoration:none; color:black;">{{ post.title|truncatechars:50 }}</a></h5>
+                    <p class="card-subtitle">{{ post.pub_date|date:"d.m.Y"}}</p>
+                </div>
+            </div>
+        {% endif %}
+    {% empty %}
+        <p>Нет результатов</p>
+    {% endfor %}
+    {% endif %}
+
 </div>
 {% include 'includes/paginator.html' %}
 {% endblock %}
