@@ -17,7 +17,9 @@
   {% if request.path == "/" %}
     <form class="d-flex navbar-search" role="search" action="{% url 'posts:post_list' %}" method="get">
       <input class="form-control me-2" type="search" name="q" placeholder="Поиск по заголовку" aria-label="Поиск" value="{{ request.GET.q }}">
-      <button class="btn btn-outline-success" type="submit">Поиск</button>
+      <button class="btn btn-outline-success" type="submit">
+        <span style="display: flex; align-items: center; justify-content: center;">Поиск</span>
+      </button>
     </form>
   {% endif %}
 </div>

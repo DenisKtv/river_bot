@@ -5,5 +5,46 @@
 }
 
 .marg-bot {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 2000px) {
+  .nav-link.special {
+    font-size: 1.6em;
+  }
+}
+@media (max-width: 1400px) {
+  .nav-link.special {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 1200px) {
+  .nav-link.special {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 961px) {
+  .nav-link.special {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-link.special {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-link.special {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-link.special {
+    font-size: 0.8em;
+  }
 }

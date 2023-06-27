@@ -73,3 +73,7 @@
     height: 320px;
     object-fit: cover;
 }
+
+.big-post {
+    margin-top: 20px;
+}
