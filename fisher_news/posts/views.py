@@ -64,12 +64,19 @@ def send_message_to_bot(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         message = request.POST.get('message')
+        phone = request.POST.get('phone')
+
+        if not any([phone, email, username]):
+            return JsonResponse(
+                {'success': False,
+                 'message': 'Хотя бы одно из полей (телефон, email, telegram) '
+                 'должно быть заполнено.'})
 
         telegram_token = os.getenv('ADMIN_TOKEN')
         telegram_chat = os.getenv('MY_CHAT')
-        telegram_message = (f'Новое сообщение от пользователя: \n{name},'
-                            f'\nЛогин ТГ:{username},\nпочта: {email},'
-                            f'\nСообщение: {message}')
+        telegram_message = (f'Новое сообщение от пользователя:\nИмя:{name},'
+                            f'\nЛогин ТГ:{username},\nEmail: {email},'
+                            f'\nТелефон: {phone},\nСообщение: {message}')
 
         response = requests.get(
             f'https://api.telegram.org/bot{telegram_token}/sendMessage?'
