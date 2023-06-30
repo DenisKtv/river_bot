@@ -70,9 +70,12 @@ def send_message_to_bot(request):
         if not any([phone, email, username]):
             response_data = {
                 'success': False,
-                'message': 'Хотя бы одно из полей (телефон, email, telegram) должно быть заполнено.'
+                'message': 'Хотя бы одно из полей (телефон, email, telegram) '
+                'должно быть заполнено.'
             }
-            return HttpResponse(json.dumps(response_data), content_type='application/json')
+            return HttpResponse(
+                json.dumps(response_data), content_type='application/json'
+            )
 
         telegram_token = os.getenv('ADMIN_TOKEN')
         telegram_chat = os.getenv('MY_CHAT')
@@ -89,16 +92,22 @@ def send_message_to_bot(request):
                 'status': 'success',
                 'message': 'Сообщение успешно отправлено.'
             }
-            return HttpResponse(json.dumps(response_data), content_type='application/json')
+            return HttpResponse(
+                json.dumps(response_data), content_type='application/json'
+            )
         else:
             response_data = {
                 'status': 'error',
                 'message': 'Ошибка при отправке сообщения.'
             }
-            return HttpResponse(json.dumps(response_data), content_type='application/json')
+            return HttpResponse(
+                json.dumps(response_data), content_type='application/json'
+            )
     else:
         response_data = {
             'status': 'error',
             'message': 'Недопустимый метод запроса.'
         }
-        return HttpResponse(json.dumps(response_data), content_type='application/json')
+        return HttpResponse(
+            json.dumps(response_data), content_type='application/json'
+        )

@@ -1,15 +1,34 @@
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
 <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 <div class="header-container">
   <div class="navbar">
-    <a class="navbar-brand" href="https://t.me/fish_journal">
-      <img src="{% static 'img/tg.png' %}" alt="Telegram" width="30" height="24">
-    </a>
-    <a href="{% url 'posts:index' %}">Главная</a>
-    <a href="{% url 'about:us' %}">О нас</a>
-    <a href="{% url 'about:contacts' %}">Контакты</a>
+    <div class="menu-links">
+      <a class="navbar-brand" href="https://t.me/fish_journal">
+        <img src="{% static 'img/tg.png' %}" alt="Telegram" width="30" height="24">
+      </a>
+      <!-- Навигация для разрешений больше или равных 576px -->
+      <a class="nav-link" href="{% url 'posts:index' %}">Главная</a>
+      <a class="nav-link" href="{% url 'about:us' %}">О нас</a>
+      <a class="nav-link" href="{% url 'about:contacts' %}">Контакты</a>
+    </div>
+    
+    <!-- Навигация для разрешений меньше 576px -->
+    <div class="btn-group dropstart">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:darkgreen; font-size: 1em;">
+        Меню
+      </button>
+      <ul class="dropdown-menu dropdown-menu-xl" style="font-size: 1em;">
+        <li><a class="dropdown-item" href="{% url 'posts:index' %}">Главная</a></li>
+        <li><a class="dropdown-item" href="{% url 'about:us' %}">О нас</a></li>
+        <li><a class="dropdown-item" href="{% url 'about:contacts' %}">Контакты</a></li>
+        <li><a class="dropdown-item" href="https://t.me/fish_journal">Телеграм сообщество</a></li>
+      </ul>
+    </div>
   </div>
   <a href="{% url 'posts:index' %}">
     <img src="{% static 'img/header.jpg' %}" class="header-img">

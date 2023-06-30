@@ -27,19 +27,19 @@
 
 @media (max-width: 961px) {
   .nav-link.special {
-    font-size: 1.5em;
+    font-size: 1.3em;
   }
 }
 
 @media (max-width: 767px) {
   .nav-link.special {
-    font-size: 1.5em;
+    font-size: 1.1em;
   }
 }
 
 @media (max-width: 576px) {
   .nav-link.special {
-    font-size: 1.2em;
+    font-size: 1.1em;
   }
 }
 
