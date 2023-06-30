@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', default='django-insecure-0p5dasdafafref')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['185.107.237.87', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'sorl.thumbnail',
