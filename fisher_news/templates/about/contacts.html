@@ -2,10 +2,12 @@
 {% load static %}
 {% block title %}Контакты{% endblock %}
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'js/contacts.js' %}"></script>
-
 {% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/contacts.css' %}">
+<!-- <script src="{% static 'js/contacts.js' %}"></script> -->
+
 <div class="container mt-5">
     <h1 class="text-center mb-4">Наши контакты</h1>
     <div class="row">
@@ -13,33 +15,31 @@
             <h3>Контактная информация</h3>
             <p>Адрес: г. Минск </p>
             <p>E-mail: fishjournal@mail.ru </p>
-            <p>Telegram: <a href="https://t.me/denKtv">Наш телеграм</a> </p>
+            <p>Telegram проекта: <a href="https://t.me/fish_journal">Журнал Рыбака</a> </p>
+            <p>Telegram для связи: <a href="https://t.me/denKtv">Наш телеграм</a> </p>
         </div>
         <div class="col-md-6">
             <h3>Обратная связь</h3>
             <form method="post" action="/send_message_to_bot/">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <label for="name" class="form-label">Введите ваше имя:</label>
-                    <input type="text" class="form-control" id="name" name="name" required pattern="[A-Za-zА-Яа-яЁё\s]+">
-                    <small>Только буквы и пробелы</small>
-                </div>
+                    <label for="name" class="form-label">Введите ваше ФИО: <span class="required-field">*</span></label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Только буквы и пробелы" required pattern="[A-Za-zА-Яа-яЁё\s]+">
+                </div>                
                 <div class="mb-3">
                     <label for="username" class="form-label">Ник в Telegram:</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+                    <input type="text" class="form-control" id="username" name="username">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                    <small>Формат: example@mail.com</small>
+                    <input type="email" class="form-control" id="email" placeholder="Формат: example@mail.com" name="email">
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Телефон:</label>
-                    <input type="text" class="form-control" id="phone" name="phone" required pattern="[0-9+\-\s]+">
-                    <small>Только цифры, + и -</small>
+                    <input type="text" class="form-control" id="phone" placeholder="Только цифры, + и -" name="phone" pattern="[0-9+\-\s]+">
                 </div>
                 <div class="mb-3">
-                    <label for="message" class="form-label">Сообщение:</label>
+                    <label for="message" class="form-label">Сообщение:<span class="required-field">*</span></label>
                     <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Отправить</button>
@@ -47,4 +47,34 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('form').on('submit', function(event) {
+            event.preventDefault();
+    
+            // Отправка данных формы с использованием AJAX
+            $.ajax({
+                url: '/send_message_to_bot/',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        // Вывод успешного сообщения
+                        alert(response.message);
+                    } else {
+                        // Вывод сообщения об ошибке
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    // Вывод сообщения об ошибке AJAX-запроса
+                    alert('Ошибка при отправке сообщения.');
+                }
+            });
+        });
+    });
+    </script>
+    
+
 {% endblock %}
+

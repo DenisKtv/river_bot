@@ -1,6 +1,7 @@
 import os
 import requests
-from django.http import JsonResponse
+import json
+from django.http import HttpResponse
 from dotenv import load_dotenv
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Group
@@ -67,15 +68,16 @@ def send_message_to_bot(request):
         phone = request.POST.get('phone')
 
         if not any([phone, email, username]):
-            return JsonResponse(
-                {'success': False,
-                 'message': 'Хотя бы одно из полей (телефон, email, telegram) '
-                 'должно быть заполнено.'})
+            response_data = {
+                'success': False,
+                'message': 'Хотя бы одно из полей (телефон, email, telegram) должно быть заполнено.'
+            }
+            return HttpResponse(json.dumps(response_data), content_type='application/json')
 
         telegram_token = os.getenv('ADMIN_TOKEN')
         telegram_chat = os.getenv('MY_CHAT')
-        telegram_message = (f'Новое сообщение от пользователя:\nИмя:{name},'
-                            f'\nЛогин ТГ:{username},\nEmail: {email},'
+        telegram_message = (f'Новое сообщение от пользователя:\nИмя: {name},'
+                            f'\nЛогин ТГ: {username},\nEmail: {email},'
                             f'\nТелефон: {phone},\nСообщение: {message}')
 
         response = requests.get(
@@ -83,13 +85,20 @@ def send_message_to_bot(request):
             f'chat_id={telegram_chat}&text={telegram_message}'
         )
         if response.status_code == 200:
-            # Успешно отправлено
-            return JsonResponse({'status': 'success'})
+            response_data = {
+                'status': 'success',
+                'message': 'Сообщение успешно отправлено.'
+            }
+            return HttpResponse(json.dumps(response_data), content_type='application/json')
         else:
-            # Ошибка при отправке
-            return JsonResponse({'status': 'error'})
+            response_data = {
+                'status': 'error',
+                'message': 'Ошибка при отправке сообщения.'
+            }
+            return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
-        # Недопустимый метод запроса
-        return JsonResponse(
-            {'status': 'error', 'message': 'Invalid request method'}
-        )
+        response_data = {
+            'status': 'error',
+            'message': 'Недопустимый метод запроса.'
+        }
+        return HttpResponse(json.dumps(response_data), content_type='application/json')
