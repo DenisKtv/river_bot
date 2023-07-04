@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', default='django-insecure-0p5dasdafafref')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] # ?????
+ALLOWED_HOSTS = ['*']  # ?????
 
 INSTALLED_APPS = [
     'sorl.thumbnail',
@@ -96,8 +96,3 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '12aa2978dab311'
-EMAIL_HOST_PASSWORD = 'dfaf3d8ca66e1d'
-EMAIL_PORT = '2525'
