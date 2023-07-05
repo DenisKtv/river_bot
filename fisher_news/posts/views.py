@@ -1,11 +1,13 @@
-import os
-import requests
 import json
-from django.http import HttpResponse
-from dotenv import load_dotenv
-from django.shortcuts import render, get_object_or_404
-from .models import Post, Group
+import os
+
+import requests
 from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render
+from dotenv import load_dotenv
+
+from .models import Group, Post
 
 load_dotenv()
 

@@ -1,10 +1,9 @@
 import logging
 import os
+
 import openai
-
-from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, executor, types
-
+from dotenv import load_dotenv
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)

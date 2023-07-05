@@ -1,11 +1,10 @@
-import os
-import logging
 import asyncio
+import logging
+import os
 
+from aiogram import Bot, Dispatcher, executor, types
 from django.http import JsonResponse
-from aiogram import Bot, executor, Dispatcher, types
 from dotenv import load_dotenv
-
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)

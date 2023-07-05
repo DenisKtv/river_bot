@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Post, Group, Image
+
+from .models import Group, Image, Post
 
 
 class ImageInline(admin.TabularInline):

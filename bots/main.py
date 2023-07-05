@@ -1,13 +1,13 @@
-import requests
-import os
 import logging
-
-from aiogram import Bot, Dispatcher, executor, types
-from dotenv import load_dotenv
+import os
 from datetime import datetime
-from bs4 import BeautifulSoup as bs
 
-from data import LAKE_AND_RIVERS, RIVERS_WITH_MANY_DOTS, DATA_LIST
+import requests
+from aiogram import Bot, Dispatcher, executor, types
+from bs4 import BeautifulSoup as bs
+from dotenv import load_dotenv
+
+from data import DATA_LIST, LAKE_AND_RIVERS, RIVERS_WITH_MANY_DOTS
 
 load_dotenv()
 
