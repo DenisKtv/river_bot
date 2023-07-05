@@ -55,6 +55,7 @@ jobs:
               passphrase: ${{ secrets.PASSPHRASE }}
               password: ${{ secrets.SERVER_PASSWORD }}
               script: |
+                  cd /root/river_bot/infra/
                   sudo docker-compose stop
                   sudo docker-compose rm web
                   touch .env
