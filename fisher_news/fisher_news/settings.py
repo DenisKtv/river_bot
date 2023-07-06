@@ -9,9 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', default='django-insecure-0p5dasdafafref')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']  # ?????
+ALLOWED_HOSTS = ['185.107.237.87']  # ?????
 
 INSTALLED_APPS = [
     'sorl.thumbnail',
