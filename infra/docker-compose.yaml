@@ -37,9 +37,12 @@ services:
 
   certbot:
     image: certbot/certbot
+    depends_on:
+      - nginx
     volumes:
       - ./letsencrypt:/etc/letsencrypt
-    command: certonly --webroot --webroot-path=/var/html --email deniskforwork@gmail.com --agree-tos --no-eff-email --staging -d fisherjournal.xyz -d www.fisherjournal.xyz
+      - static_value:/var/html/static
+    command: certonly --webroot --webroot-path=/var/html/static --email deniskforwork@gmail.com --agree-tos --staging --no-eff-email -d fisherjournal.xyz
 
 volumes:
   static_value:
