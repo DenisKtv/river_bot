@@ -26,14 +26,23 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_value:/var/html/static/
       - media_value:/var/html/media/
+      - ./letsencrypt:/etc/letsencrypt
     depends_on:
       - web
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+    command: certonly --webroot --webroot-path=/var/html --email deniskforwork@gmail.com --agree-tos --no-eff-email --staging -d fisherjournal.xyz -d www.fisherjournal.xyz
 
 volumes:
   static_value:
   media_value:
   db_value:
+  letsencrypt:
