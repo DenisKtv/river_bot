@@ -98,3 +98,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# some deff
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True

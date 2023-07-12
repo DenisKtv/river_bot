@@ -35,15 +35,6 @@ services:
     depends_on:
       - web
 
-  certbot:
-    image: certbot/certbot
-    depends_on:
-      - nginx
-    volumes:
-      - ./letsencrypt:/etc/letsencrypt
-      - static_value:/var/html/static
-    command: certonly --webroot --webroot-path=/var/html/static --email deniskforwork@gmail.com --agree-tos --no-eff-email -d fisherjournal.xyz --renew-by-default
-
 volumes:
   static_value:
   media_value:
