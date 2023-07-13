@@ -6,7 +6,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'css/contacts.css' %}">
-<script src="{% static 'js/contacts.js' %}"></script>
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Наши контакты</h1>
@@ -47,4 +46,32 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('form').on('submit', function(event) {
+            event.preventDefault();
+
+            // Отправка данных формы с использованием AJAX
+            $.ajax({
+                url: '/send_message_to_bot/',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        // Вывод успешного сообщения
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        // Вывод сообщения об ошибке
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    // Вывод сообщения об ошибке AJAX-запроса
+                    alert('Ошибка при отправке сообщения.');
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
