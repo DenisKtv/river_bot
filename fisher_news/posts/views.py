@@ -12,7 +12,6 @@ from .models import Group, Post
 load_dotenv()
 
 
-# Create your views here.
 def index(request):
     posts = Post.objects.all()
     paginator = Paginator(posts, 7)

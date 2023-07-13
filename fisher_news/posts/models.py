@@ -40,9 +40,14 @@ class Post(models.Model):
     def get_formatted_text(self):
         formatted_text = self.text
         images = self.images.all()
-        for image in images:
+        image_iter = iter(images)
+        while '{img}' in formatted_text:
+            try:
+                image = next(image_iter)
+            except StopIteration:
+                break
             formatted_text = formatted_text.replace(
-                '{img}', f'<img src="{image.image_url}">'
+                '{img}', f'<img src="{image.image_url}">', 1
             )
         return formatted_text
 

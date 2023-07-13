@@ -1,58 +1,26 @@
 $(document).ready(function() {
-    $('#contact-form').on('submit', function(event) {
+    $('form').on('submit', function(event) {
         event.preventDefault();
 
-        var form = $(this);
-        var formData = form.serialize();
-
-        // Получаем значения полей телефона, email и username
-        var phone = $('#phone').val();
-        var email = $('#email').val();
-        var username = $('#username').val();
-
-        // Проверяем, что хотя бы одно из полей заполнено
-        if (!phone && !email && !username) {
-            // Выводим сообщение об ошибке и прерываем отправку формы
-            alert('Хотя бы одно из полей (телефон, email, telegram) должно быть заполнено.');
-            return;
-        }
-
-        // Продолжаем отправку формы
+        // Отправка данных формы с использованием AJAX
         $.ajax({
-            headers: {
-                'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()
-            },
+            url: '/send_message_to_bot/',
             type: 'POST',
-            url: form.attr('action'),
-            data: formData,
+            data: $(this).serialize(),
             success: function(response) {
-                // Обработка успешного ответа
-                console.log(response);
-
-                // Отправка данных боту через запрос к серверу
-                sendToBot(formData);
+                if (response.success) {
+                    // Вывод успешного сообщения
+                    alert(response.message);
+                    location.reload();
+                } else {
+                    // Вывод сообщения об ошибке
+                    alert(response.message);
+                }
             },
-            error: function(error) {
-                // Обработка ошибки
-                console.error(error);
+            error: function() {
+                // Вывод сообщения об ошибке AJAX-запроса
+                alert('Ошибка при отправке сообщения.');
             }
         });
     });
-
-    function sendToBot(formData) {
-        // Отправка данных боту через Ajax-запрос
-        $.ajax({
-            type: 'POST',
-            url: '/send_message_to_bot/',
-            data: formData,
-            success: function(response) {
-                // Обработка успешного ответа
-                console.log(response);
-            },
-            error: function(error) {
-                // Обработка ошибки
-                console.error(error);
-            }
-        });
-    }
 });
