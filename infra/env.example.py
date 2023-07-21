@@ -11,6 +11,7 @@ SECRET_KEY =
 
 # telegram chat
 MY_CHAT = 
+GROUP_ID =
 
 # OpenAi token
 AI_TOKEN =
