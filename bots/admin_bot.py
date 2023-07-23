@@ -1,12 +1,13 @@
-import aiocron
 import asyncio
+import json
 import logging
 import os
+
+import aiocron
 import requests
-import json
-from bs4 import BeautifulSoup
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ContentType
+from bs4 import BeautifulSoup
 from django.http import JsonResponse
 from dotenv import load_dotenv
 
