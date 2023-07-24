@@ -23,6 +23,8 @@ NEWS_TITLES_FILE = 'news_titles.json'
 
 
 def load_news_titles():
+    """Проверяем существует ли наш файл с заголовками и присваиваем данные
+    переменной"""
     if os.path.exists(NEWS_TITLES_FILE):
         with open(NEWS_TITLES_FILE, 'r') as file:
             try:
@@ -35,11 +37,14 @@ def load_news_titles():
 
 
 def save_news_titles(news_titles):
+    """Записываем новый заголовок в файл"""
     with open(NEWS_TITLES_FILE, 'w') as file:
         json.dump(news_titles, file)
 
 
 def parser():
+    """Парсим данные, проверяем есть ли у нас такая новость и сохраняем
+    данные в словарь"""
     url = 'https://fisherjournal.xyz'
 
     page = requests.get(url)
@@ -72,6 +77,7 @@ def parser():
     content_types=[ContentType.NEW_CHAT_MEMBERS, ContentType.LEFT_CHAT_MEMBER]
 )
 async def delete_service_messages(message: types.Message):
+    """Удаляем оповещения о входе-выходе пользователей"""
     await bot.delete_message(
         chat_id=message.chat.id, message_id=message.message_id
     )
@@ -79,22 +85,24 @@ async def delete_service_messages(message: types.Message):
 
 @aiocron.crontab('0 14 * * *')
 async def send_news():
-    while True:
-        news = parser()
-        if news:
-            await bot.send_photo(
-                chat_id=chat_id,
-                photo=news['img'],
-                caption=f"{news['title']}\n{news['url']}"
-            )
-        await asyncio.sleep(60 * 60)
+    """Запускаем функцию проверки и парсинга новостей раз в день, а так же
+    выкладываем новую новость"""
+    news = parser()
+    if news:
+        await bot.send_photo(
+            chat_id=chat_id,
+            photo=news['img'],
+            caption=f"{news['title']}\n{news['url']}"
+        )
 
 
 async def send_message_to_chat(message: types.Message):
+    """Вывод ответа сообщения"""
     await message.answer(message)
 
 
 async def send_message_to_bot(request):
+    """Вывод заполненной формы обратной связи с нашего сайта"""
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')

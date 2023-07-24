@@ -10,6 +10,7 @@ class AboutUsView(TemplateView):
 
 
 def contacts(request):
+    """Функция для обработки формы для SMTP"""
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')

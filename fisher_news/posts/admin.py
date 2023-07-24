@@ -13,7 +13,7 @@ class NewsAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('pub_date',)
     empty_value_display = '-empty-'
-    inlines = [ImageInline]  # Добавляем модель Image в админку новости
+    inlines = [ImageInline]
 
 
 admin.site.register(Post, NewsAdmin)
