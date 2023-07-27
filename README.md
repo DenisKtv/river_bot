@@ -16,7 +16,8 @@
 [![CSS](https://img.shields.io/badge/-CSS-1572B6?style=flat-square&logo=CSS3&logoColor=white)](https://www.w3.org/Style/CSS/Overview.en.html)
 [![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?style=flat-square&logo=Bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=black)](https://www.ecma-international.org/publications/standards/Ecma-262.htm)
-
+[![Prometheus](https://img.shields.io/badge/-Prometheus-E6522C?style=flat-square&logo=Prometheus&logoColor=white)](https://prometheus.io/)
+[![Grafana](https://img.shields.io/badge/-Grafana-F46800?style=flat-square&logo=Grafana&logoColor=white)](https://grafana.com/)
 
 ## Описание проекта
 
@@ -63,6 +64,10 @@ GROUP_ID =
 
 OpenAi token:
 AI_TOKEN =
+
+Prometheus and Grafana:
+ADMIN_USER = 
+ADMIN_PASSWORD = 
 
 Postgresql:
 DB_ENGINE = 
