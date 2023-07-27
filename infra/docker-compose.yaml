@@ -144,7 +144,7 @@ services:
       - "3001:3001"
       - "9090:9090"
       - "9093:9093"
-      - "9091:9091"
+      - "9095:9095"
     volumes:
       - ./caddy:/etc/caddy
     environment:
