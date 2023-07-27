@@ -90,7 +90,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-## Для запуска ботом локально:
+## Для запуска ботов локально:
 Перейти в нужный репозиторий и запустить ботов:
 ```bash
 cd bots/

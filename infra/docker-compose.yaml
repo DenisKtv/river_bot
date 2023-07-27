@@ -1,5 +1,17 @@
 version: '3.8'
 
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  db_value:
+  static_value:
+  media_value:
+  prometheus_data:
+  grafana_data:
+  letsencrypt:
+
 services:
   db:
     image: postgres:13.0-alpine
@@ -7,7 +19,9 @@ services:
       - db_value:/var/lib/postgresql/data/
     env_file:
       - ./.env
-  
+    networks:
+      - app-net
+
   web:
     image: denisktv/web:latest
     restart: always
@@ -20,7 +34,9 @@ services:
       - db
     env_file:
       - ./.env
-  
+    networks:
+      - app-net
+
   nginx:
     image: nginx:1.21.3-alpine
     restart: always
@@ -34,9 +50,106 @@ services:
       - ./letsencrypt:/etc/letsencrypt
     depends_on:
       - web
+    networks:
+      - app-net
 
-volumes:
-  static_value:
-  media_value:
-  db_value:
-  letsencrypt:
+  prometheus:
+    image: prom/prometheus:v2.17.1
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    networks:
+      - app-net
+
+  nodeexporter:
+    image: prom/node-exporter:v0.18.1
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    networks:
+      - app-net
+
+  cadvisor:
+    image: gcr.io/google-containers/cadvisor:v0.34.0
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - app-net
+
+  grafana:
+    image: grafana/grafana:6.7.2
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - app-net
+
+  pushgateway:
+    image: prom/pushgateway:v1.2.0
+    restart: unless-stopped
+    ports:
+      - "9091:9091"
+    networks:
+      - app-net
+    labels:
+      org.label-schema.group: "monitoring"
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.9.0
+    command:
+      - "-nginx.scrape-uri=http://nginx/stub_status"
+      - "-web.listen-address=:9113"
+    ports:
+      - "9113:9113"
+    networks:
+      - app-net
+    depends_on:
+      - nginx
+
+  caddy:
+    image: stefanprodan/caddy
+    ports:
+      - "3001:3001"
+      - "9090:9090"
+      - "9093:9093"
+      - "9091:9091"
+    volumes:
+      - ./caddy:/etc/caddy
+    environment:
+      - ADMIN_USER=${ADMIN_USER}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    restart: unless-stopped
+    networks:
+      - app-net
