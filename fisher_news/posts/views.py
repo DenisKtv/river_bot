@@ -60,6 +60,14 @@ def news_detail(request, pk):
     return render(request, 'posts/news_detail.html', context)
 
 
+def oauth_callback(request):
+    code = request.GET.get('code', '')
+    if code:
+        return HttpResponse(f"Код авторизации получен: {code}")
+    else:
+        return HttpResponse("Не удалось получить код авторизации.")
+
+
 def send_message_to_bot(request):
     if request.method == 'POST':
         name = request.POST.get('name')
